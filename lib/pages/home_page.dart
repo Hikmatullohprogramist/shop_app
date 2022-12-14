@@ -1,98 +1,129 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:shop_app/services/models/product_model.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:shop_app/pages/products.dart';
 
-import '../services/services/product_service.dart';
+class HomePage extends StatelessWidget {
+  final RoundedLoadingButtonController _btnController =
+      new RoundedLoadingButtonController();
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  List<Product>? products;
-  var isLoaded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
-  getData() async {
-    products = await RemoteService().getModels();
-    // ignore: unrelated_type_equality_checks
-    if (products != Null) {
-      setState(() {
-        isLoaded = true;
-      });
-    }
+  void _doSomething() async {
+    Timer(
+      Duration(seconds: 3),
+      () {
+        _btnController.success();
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Market"),
+        title: Text("Market"),
+        centerTitle: true,
       ),
-      body: AnimationLimiter(
-        child: ListView.builder(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.width / 30),
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          itemCount: 20,
-          itemBuilder: (BuildContext context, int index) {
-            return AnimationConfiguration.staggeredList(
-              position: index,
-              delay: const Duration(milliseconds: 100),
-              child: SlideAnimation(
-                duration: const Duration(milliseconds: 2500),
-                curve: Curves.fastLinearToSlowEaseIn,
-                child: FadeInAnimation(
-                  curve: Curves.fastLinearToSlowEaseIn,
-                  duration: const Duration(milliseconds: 2500),
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.width / 20),
-                    height: MediaQuery.of(context).size.width / 4,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 40,
-                          spreadRadius: 10,
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Mix",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                          Text("2000 so'm"),
-                        ],
-                      ),
-                    ),
+      body: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.topCenter,
+                height: 200,
+                color: Colors.amber,
+                child: Center(
+                  child: Text(
+                    "Logo",
+                    style: TextStyle(fontSize: 30),
                   ),
                 ),
               ),
-            );
-          },
+              SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RoundedLoadingButton(
+                      width: 150,
+                      height: 120,
+                      child:
+                          Text('Sotuv!', style: TextStyle(color: Colors.white)),
+                      controller: _btnController,
+                      onPressed: _doSomething,
+                    ),
+                    RoundedLoadingButton(
+                      width: 150,
+                      height: 120,
+                      child:
+                          Text('To`lov', style: TextStyle(color: Colors.white)),
+                      controller: _btnController,
+                      onPressed: _doSomething,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RoundedLoadingButton(
+                      width: 150,
+                      height: 120,
+                      child: Text('Hisobot',
+                          style: TextStyle(color: Colors.white)),
+                      controller: _btnController,
+                      onPressed: _doSomething,
+                    ),
+                    RoundedLoadingButton(
+                      width: 150,
+                      height: 120,
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.refresh),
+                      ),
+                      controller: _btnController,
+                      onPressed: _doSomething,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RoundedLoadingButton(
+                      width: 150,
+                      height: 120,
+                      child:
+                          Text('Ombor', style: TextStyle(color: Colors.white)),
+                      controller: _btnController,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ProductsList()),
+                        );
+                      },
+                    ),
+                    RoundedLoadingButton(
+                      width: 150,
+                      height: 120,
+                      child: Text('Vozvrat',
+                          style: TextStyle(color: Colors.white)),
+                      controller: _btnController,
+                      onPressed: _doSomething,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

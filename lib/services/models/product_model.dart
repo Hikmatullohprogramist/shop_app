@@ -1,11 +1,7 @@
-// To parse this JSON data, do
-//
-//     final product = productFromJson(jsonString);
-
 import 'dart:convert';
 
-List<Product> productFromJson(String str) =>
-    List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
+List<Product> productFromJson(dynamic str) =>
+    List<Product>.from(str.map((x) => Product.fromJson(x)));
 
 String productToJson(List<Product> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -20,12 +16,12 @@ class Product {
     required this.amount,
   });
 
-  int id;
-  String name;
-  String price1;
-  String price2;
-  DateTime date;
-  String amount;
+  int? id;
+  String? name;
+  String? price1;
+  String? price2;
+  DateTime? date;
+  String? amount;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
@@ -43,7 +39,7 @@ class Product {
         "price2": price2,
         "date": date == null
             ? null
-            : "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+            : "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
         "amount": amount,
       };
 }
