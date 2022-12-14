@@ -19,6 +19,7 @@ class _ProductsListState extends State<ProductsList> {
   void initState() {
     super.initState();
     getData();
+    print(products);
   }
 
   getData() async {
@@ -42,7 +43,7 @@ class _ProductsListState extends State<ProductsList> {
           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 30),
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
-          itemCount: 20,
+          itemCount: products!.length,
           itemBuilder: (BuildContext context, int index) {
             return AnimationConfiguration.staggeredList(
               position: index,
@@ -74,7 +75,7 @@ class _ProductsListState extends State<ProductsList> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Mix",
+                            products![index].name.toString(),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -82,7 +83,7 @@ class _ProductsListState extends State<ProductsList> {
                               fontSize: 20,
                             ),
                           ),
-                          Text("2000 so'm"),
+                          Text(products![index].price2.toString() + " so`m"),
                         ],
                       ),
                     ),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shop_app/pages/products.dart';
+import 'package:shop_app/pages/sell_page.dart';
 
 class HomePage extends StatelessWidget {
   final RoundedLoadingButtonController _btnController =
@@ -12,7 +13,7 @@ class HomePage extends StatelessWidget {
     Timer(
       Duration(seconds: 3),
       () {
-        _btnController.success();
+        // _btnController.success();
       },
     );
   }
@@ -47,47 +48,40 @@ class HomePage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    RoundedLoadingButton(
-                      width: 150,
-                      height: 120,
-                      child:
-                          Text('Sotuv!', style: TextStyle(color: Colors.white)),
-                      controller: _btnController,
-                      onPressed: _doSomething,
-                    ),
-                    RoundedLoadingButton(
-                      width: 150,
-                      height: 120,
-                      child:
-                          Text('To`lov', style: TextStyle(color: Colors.white)),
-                      controller: _btnController,
-                      onPressed: _doSomething,
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RoundedLoadingButton(
-                      width: 150,
-                      height: 120,
-                      child: Text('Hisobot',
-                          style: TextStyle(color: Colors.white)),
-                      controller: _btnController,
-                      onPressed: _doSomething,
-                    ),
-                    RoundedLoadingButton(
-                      width: 150,
-                      height: 120,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.refresh),
+                    GestureDetector(
+                      // onTap: _doSomething,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SellPage()),
+                        );
+                      },
+                      child: Container(
+                        width: 150,
+                        height: 120,
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: const Center(
+                          child: Text('To`lov',
+                              style: TextStyle(color: Colors.white)),
+                        ),
                       ),
-                      controller: _btnController,
-                      onPressed: _doSomething,
+                    ),
+                    GestureDetector(
+                      onTap: _doSomething,
+                      child: Container(
+                        width: 150,
+                        height: 120,
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: const Center(
+                          child: Text('To`lov',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -97,27 +91,75 @@ class HomePage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    RoundedLoadingButton(
-                      width: 150,
-                      height: 120,
-                      child:
-                          Text('Ombor', style: TextStyle(color: Colors.white)),
-                      controller: _btnController,
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: _doSomething,
+                      child: Container(
+                        width: 150,
+                        height: 120,
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: const Center(
+                          child: Text('Hisobot',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: _doSomething,
+                      child: Container(
+                        width: 150,
+                        height: 120,
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: const Center(
+                          child: Icon(Icons.refresh),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      // onTap: _doSomething,
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const ProductsList()),
                         );
                       },
+                      child: Container(
+                        width: 150,
+                        height: 120,
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: const Center(
+                          child: Text('To`lov',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
                     ),
-                    RoundedLoadingButton(
-                      width: 150,
-                      height: 120,
-                      child: Text('Vozvrat',
-                          style: TextStyle(color: Colors.white)),
-                      controller: _btnController,
-                      onPressed: _doSomething,
+                    GestureDetector(
+                      onTap: _doSomething,
+                      child: Container(
+                        width: 150,
+                        height: 120,
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: const Center(
+                          child: Text('To`lov',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
                     ),
                   ],
                 ),
