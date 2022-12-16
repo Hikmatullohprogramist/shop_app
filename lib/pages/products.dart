@@ -12,18 +12,18 @@ class ProductsList extends StatefulWidget {
 }
 
 class _ProductsListState extends State<ProductsList> {
-  List<Product>? products;
+  late Future<List<Product>>? products;
   var isLoaded = false;
 
   @override
   void initState() {
-    super.initState();
     getData();
+    super.initState();
     print(products);
   }
 
   getData() async {
-    products = await RemoteService().getModels();
+    products = RemoteService().getModels();
     // ignore: unrelated_type_equality_checks
     if (products != Null) {
       setState(() {
@@ -38,62 +38,73 @@ class _ProductsListState extends State<ProductsList> {
       appBar: AppBar(
         title: const Text("Market"),
       ),
-      body: AnimationLimiter(
-        child: ListView.builder(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.width / 30),
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          itemCount: products!.length,
-          itemBuilder: (BuildContext context, int index) {
-            return AnimationConfiguration.staggeredList(
-              position: index,
-              delay: const Duration(milliseconds: 100),
-              child: SlideAnimation(
-                duration: const Duration(milliseconds: 2500),
-                curve: Curves.fastLinearToSlowEaseIn,
-                child: FadeInAnimation(
-                  curve: Curves.fastLinearToSlowEaseIn,
-                  duration: const Duration(milliseconds: 2500),
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.width / 20),
-                    height: MediaQuery.of(context).size.width / 4,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 40,
-                          spreadRadius: 10,
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            products![index].name.toString(),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
+      body: FutureBuilder<List<Product>>(
+          future: products,
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Product>> snapshot) {
+            if (snapshot.hasData) {
+              ListView.builder(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width / 30),
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    delay: const Duration(milliseconds: 100),
+                    child: SlideAnimation(
+                      duration: const Duration(milliseconds: 2500),
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      child: FadeInAnimation(
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        duration: const Duration(milliseconds: 2500),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.width / 20),
+                          height: MediaQuery.of(context).size.width / 4,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 40,
+                                spreadRadius: 10,
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(25.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  snapshot.data![index].name.toString(),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Text(snapshot.data![index].price2.toString() +
+                                    " so`m"),
+                              ],
                             ),
                           ),
-                          Text(products![index].price2.toString() + " so`m"),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+                  );
+                },
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
     );
   }
 }

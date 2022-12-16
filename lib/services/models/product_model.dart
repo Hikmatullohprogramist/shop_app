@@ -16,12 +16,12 @@ class Product {
     required this.amount,
   });
 
-  int? id;
-  String? name;
-  String? price1;
-  String? price2;
-  DateTime? date;
-  String? amount;
+  int id;
+  String name;
+  String price1;
+  String price2;
+  DateTime date;
+  String amount;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
