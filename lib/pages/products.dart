@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shop_app/services/models/product_model.dart';
 
 import '../services/services/product_service.dart';
@@ -43,7 +44,7 @@ class _ProductsListState extends State<ProductsList> {
           builder:
               (BuildContext context, AsyncSnapshot<List<Product>> snapshot) {
             if (snapshot.hasData) {
-              ListView.builder(
+              return ListView.builder(
                 padding: EdgeInsets.all(MediaQuery.of(context).size.width / 30),
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
@@ -99,7 +100,13 @@ class _ProductsListState extends State<ProductsList> {
                   );
                 },
               );
-            } else {
+            }
+            else if(snapshot.hasError){
+
+              return Center(child: Lottie.network("https://assets5.lottiefiles.com/packages/lf20_2tHSZX6XAG.json"),);
+
+            }
+            else {
               return Center(
                 child: CircularProgressIndicator(),
               );

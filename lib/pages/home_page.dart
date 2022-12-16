@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, unnecessary_new, use_key_in_widget_constructors
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -7,7 +9,7 @@ import 'package:shop_app/pages/sell_page.dart';
 
 class HomePage extends StatelessWidget {
   final RoundedLoadingButtonController _btnController =
-      new RoundedLoadingButtonController();
+       RoundedLoadingButtonController();
 
   void _doSomething() async {
     Timer(
@@ -64,7 +66,7 @@ class HomePage extends StatelessWidget {
                             color: Colors.blue,
                             borderRadius: BorderRadius.circular(20)),
                         child: const Center(
-                          child: Text('To`lov',
+                          child: Text('Savdo',
                               style: TextStyle(color: Colors.white)),
                         ),
                       ),

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:convert';
 
 List<Product> productFromJson(String str) =>
@@ -18,8 +20,8 @@ class Product {
 
   int id;
   String name;
-  String price1;
-  String price2;
+  int price1;
+  int price2;
   DateTime date;
   String amount;
 
@@ -39,7 +41,7 @@ class Product {
         "price2": price2,
         "date": date == null
             ? null
-            : "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+            : "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}", // ignore: unnecessary_non_null_assertion
         "amount": amount,
       };
 }
