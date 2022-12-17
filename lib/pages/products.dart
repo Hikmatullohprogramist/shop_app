@@ -13,7 +13,7 @@ class ProductsList extends StatefulWidget {
 }
 
 class _ProductsListState extends State<ProductsList> {
-  late Future<List<Product>>? products;
+  late Future<List<Product>?> products;
   var isLoaded = false;
 
   @override
@@ -21,10 +21,14 @@ class _ProductsListState extends State<ProductsList> {
     getData();
     super.initState();
     print(products);
-  }
+       // ignore: avoid_print
+ }
 
   getData() async {
     products = RemoteService().getModels();
+    products.then((value){
+      print(value);
+    });
     // ignore: unrelated_type_equality_checks
     if (products != Null) {
       setState(() {
@@ -39,10 +43,10 @@ class _ProductsListState extends State<ProductsList> {
       appBar: AppBar(
         title: const Text("Market"),
       ),
-      body: FutureBuilder<List<Product>>(
-          future: products,
+      body: FutureBuilder<List<Product>?>(
+        future: products,
           builder:
-              (BuildContext context, AsyncSnapshot<List<Product>> snapshot) {
+              (BuildContext context, AsyncSnapshot<List<Product>?> snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
                 padding: EdgeInsets.all(MediaQuery.of(context).size.width / 30),
