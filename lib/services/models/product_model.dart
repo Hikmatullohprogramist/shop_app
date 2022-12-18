@@ -1,11 +1,13 @@
 // ignore_for_file: unnecessary_null_comparison
 
 
+import 'dart:convert';
+
 List<Product> productFromJson(dynamic str) =>
     List<Product>.from(str.map((x) => Product.fromJson(x)));
 
-// String productToJson(List<Product> data) =>
-//     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String productToJson(List<Product> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Product {
   Product({
@@ -34,14 +36,16 @@ class Product {
         amount: json["amount"],
       );
 
-  // Map<String, dynamic> toJson() => {
-  //       "id": id,
-  //       "name": name,
-  //       "price1": price1,
-  //       "price2": price2,
-  //       "date": date == null
-  //           ? null
-  //           : "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}", // ignore: unnecessary_non_null_assertion
-  //       "amount": amount,
-  //     };
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "price1": price1,
+        "price2": price2,
+        "date": date,
+        "amount": amount,
+        // date == null
+        //     ? null
+        //     : "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}", // ignore: unnecessary_non_null_assertion
+
+      };
 }

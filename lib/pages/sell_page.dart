@@ -9,8 +9,9 @@ import 'package:shop_app/services/models/product_model.dart';
 import '../services/services/product_service.dart';
 
 class SellPage extends StatefulWidget {
-
-  const SellPage({super.key,});
+  const SellPage({
+    super.key,
+  });
 
   @override
   State<SellPage> createState() => _SellPageState();
@@ -24,6 +25,7 @@ class _SellPageState extends State<SellPage> {
   @override
   void initState() {
     super.initState();
+
     getData();
     print("Tovarlar royxati $products");
     _bsbController.addListener(_onBsbChanged);
@@ -39,14 +41,17 @@ class _SellPageState extends State<SellPage> {
     }
   }
 
+  postData(String name, int amount, String price, String date, String time, int status, String price1) async {
+    RemoteService().fetchData(name, amount, price, date, time, status, price1);
+  }
+
   final _bsbController = BottomSheetBarController();
   int price = 0;
   int amount = 0;
 
-
-
   bool _isCollapsed = true;
   bool _isExpanded = false;
+
   void _onBsbChanged() {
     if (_bsbController.isCollapsed && !_isCollapsed) {
       setState(() {
@@ -60,6 +65,8 @@ class _SellPageState extends State<SellPage> {
       });
     }
   }
+  String time = DateFormat("HH:mm:ss").format(DateTime.now());
+  String date = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -124,14 +131,16 @@ class _SellPageState extends State<SellPage> {
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          NumberFormat.simpleCurrency(locale: "uz-UZB", decimalDigits: 1, ).format(price),
+                          NumberFormat.simpleCurrency(
+                            locale: "uz-UZB",
+                            decimalDigits: 1,
+                          ).format(price),
                           style: const TextStyle(fontSize: 15),
                         ),
                       ],
                     ),
                   ),
                   IconButton(
-
                       onPressed: () {
                         _bsbController.expand();
                       },
@@ -168,7 +177,11 @@ class _SellPageState extends State<SellPage> {
                                         MediaQuery.of(context).size.width / 20),
                                 height: MediaQuery.of(context).size.width / 4,
                                 decoration: BoxDecoration(
-                                  color: int.parse(snapshot.data![index].amount ) != 0  ? Colors.white : Colors.red,
+                                  color:
+                                      int.parse(snapshot.data![index].amount) !=
+                                              0
+                                          ? Colors.white
+                                          : Colors.red,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(20)),
                                   boxShadow: [
@@ -197,7 +210,8 @@ class _SellPageState extends State<SellPage> {
                                       Visibility(
                                         visible: false,
                                         child: Text(
-                                          snapshot.data![index].amount.toString(),
+                                          snapshot.data![index].amount
+                                              .toString(),
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
@@ -209,10 +223,20 @@ class _SellPageState extends State<SellPage> {
                                       GestureDetector(
                                         onTap: () {
                                           try {
-                                           setState(() {
-                                             price +=int.parse( snapshot.data![index].price2);
-                                           });
-
+                                            setState(() {
+                                              price += int.parse(
+                                                  snapshot.data![index].price2);
+                                              amount += 1;
+                                              postData(
+                                                  snapshot.data![index].name,
+                                                  amount,
+                                                  snapshot.data![index].price2,
+                                                  date,
+                                                  time,
+                                                  1,
+                                                snapshot.data![index].price1,
+                                              );
+                                            });
                                           } catch (e) {
                                             print("Qandaydir xatolik  $e");
                                           }
