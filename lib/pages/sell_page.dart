@@ -6,6 +6,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shop_app/services/models/product_model.dart';
+import '../services/models/sell_model.dart';
 import '../services/services/product_service.dart';
 
 class SellPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class SellPage extends StatefulWidget {
 
 class _SellPageState extends State<SellPage> {
   late Future<List<Product>?> products;
+  late Future<List<SellModel>?> sellmodel;
 
   var isLoaded = false;
 
@@ -27,12 +29,14 @@ class _SellPageState extends State<SellPage> {
     super.initState();
 
     getData();
+
     print("Tovarlar royxati $products");
     _bsbController.addListener(_onBsbChanged);
   }
 
   getData() async {
     products = RemoteService().getModels();
+    sellmodel = RemoteService().getsellModel();
     // ignore: unrelated_type_equality_checks
     if (products != Null) {
       setState(() {
@@ -41,7 +45,8 @@ class _SellPageState extends State<SellPage> {
     }
   }
 
-  postData(String name, int amount, String price, String date, String time, int status, String price1) async {
+  postData(String name, int amount, String price, String date, String time,
+      int status, String price1) async {
     RemoteService().fetchData(name, amount, price, date, time, status, price1);
   }
 
@@ -65,6 +70,7 @@ class _SellPageState extends State<SellPage> {
       });
     }
   }
+
   String time = DateFormat("HH:mm:ss").format(DateTime.now());
   String date = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
@@ -82,40 +88,66 @@ class _SellPageState extends State<SellPage> {
             return BottomSheetBar(
               controller: _bsbController,
               willPopScope: true,
-              expandedBuilder: (scrollController) {
-                final itemList = List<int>.generate(12, (index) => index + 1);
-
+              expandedBuilder: (scrollController) => FutureBuilder<List<SellModel>?>
+              
+                (builder: (BuildContext context, AsyncSnapshot<List<SellModel>?> snapshot){return ListView.builder(
+                  controller: scrollController,
+                  itemBuilder: (context, index){
+                  return ListTile(
+                    title: Text(snapshot.data![index].name),
+                  );
+              });},),
                 // Wrapping the returned widget with [Material] for tap effects
-                return Material(
-                  color: Colors.transparent,
-                  child: CustomScrollView(
-                    controller: scrollController,
-                    shrinkWrap: true,
-                    slivers: [
-                      SliverFixedExtentList(
-                        itemExtent: 56.0, // I'm forcing item heights
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) => ListTile(
-                            title: Text(
-                              itemList[index].toString(),
-                              style: const TextStyle(fontSize: 20.0),
-                            ),
-                            onTap: () => showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: Text(
-                                  itemList[index].toString(),
-                                ),
-                              ),
-                            ),
-                          ),
-                          childCount: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                // return  FutureBuilder<List<SellModel>?>(
+                //     future: sellmodel,
+                //     builder: (BuildContext context,
+                //         AsyncSnapshot<List<SellModel>?> snapshot) {
+                //       if (snapshot.hasData) {
+                //         return ListView.builder(
+                //             itemCount: snapshot.data!.length,
+                //             itemBuilder: (context, index) {
+                //               return Material(
+                //                 child: Center(
+                //                   child: Text(snapshot.data![index].name),
+                //                 ),
+                //               );
+                //             });
+                //       } else {
+                //         return Center(
+                //           child: CircularProgressIndicator(),
+                //         );
+                //       }
+                //     });
+                // return Material(
+                //   color: Colors.transparent,
+                //   child: CustomScrollView(
+                //     controller: scrollController,
+                //     shrinkWrap: true,
+                //     slivers: [
+                //       SliverFixedExtentList(
+                //         itemExtent: 56.0, // I'm forcing item heights
+                //         delegate: SliverChildBuilderDelegate(
+                //               (context, index) => ListTile(
+                //             title: Text(
+                //               snapshot.data![index].name.toString(),
+                //               style: const TextStyle(fontSize: 20.0),
+                //             ),
+                //             onTap: () => showDialog(
+                //               context: context,
+                //               builder: (context) => AlertDialog(
+                //                 // title: Text(
+                //                 //   itemList[index].toString(),
+                //                 // ),
+                //               ),
+                //             ),
+                //           ),
+                //           childCount: 12,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // );
+
               collapsed: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,12 +260,12 @@ class _SellPageState extends State<SellPage> {
                                                   snapshot.data![index].price2);
                                               amount += 1;
                                               postData(
-                                                  snapshot.data![index].name,
-                                                  amount,
-                                                  snapshot.data![index].price2,
-                                                  date,
-                                                  time,
-                                                  1,
+                                                snapshot.data![index].name,
+                                                amount,
+                                                snapshot.data![index].price2,
+                                                date,
+                                                time,
+                                                1,
                                                 snapshot.data![index].price1,
                                               );
                                             });

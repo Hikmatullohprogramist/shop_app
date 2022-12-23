@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unused_local_variable
+// ignore_for_file: avoid_print, unused_local_variable, body_might_complete_normally_nullable
 
 
 import 'package:dio/dio.dart';
@@ -43,7 +43,7 @@ class RemoteService {
   Future<List<SellModel>?> getsellModel() async{
     var dio = Dio();
     try {
-      var response = await dio.get('http://192.168.88.14:8001/products');
+      var response = await dio.get('http://192.168.88.14:8001/sell');
       var json = response.data;
       if (response.statusCode == 200) {
         return sellModelFromJson(json);
