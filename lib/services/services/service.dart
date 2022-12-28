@@ -11,7 +11,7 @@ class RemoteService {
   Future<List<Product>?> getModels() async {
     var dio = Dio();
     try {
-      var response = await dio.get('http://192.168.88.14:8001/products');
+      var response = await dio.get('http://192.168.88.56:8001/products');
       var json = response.data;
       if (response.statusCode == 200) {
         return productFromJson(json);
@@ -21,7 +21,7 @@ class RemoteService {
       print(e);
     }
   }
-  Future fetchData(String name, int amount, String price, String date, String time, int status, String price1) async {
+  Future fetchData(String name, int amount, String price, String date, String time, int status, String price1, int user) async {
     var dio = Dio();
     var headers = {'Content-Type': 'text/plain'};
     dynamic data = {
@@ -31,11 +31,12 @@ class RemoteService {
       "date": date,
       "time": time,
       "status": status,
-      "price1": price1
+      "price1": price1,
+      "user": user,
     };
 
     var response = await dio.post(
-      "http://192.168.88.14:8001/sell",
+      "http://192.168.88.56:8001/sell",
       data: data,
     );
     return response.data;
@@ -43,7 +44,7 @@ class RemoteService {
   Future<List<SellModel>?> getsellModel() async{
     var dio = Dio();
     try {
-      var response = await dio.get('http://192.168.88.14:8001/sell');
+      var response = await dio.get('http://192.168.88.56:8001/sell');
       var json = response.data;
       if (response.statusCode == 200) {
         return sellModelFromJson(json);
@@ -53,5 +54,13 @@ class RemoteService {
       print(e);
     }
   }
+  Future deleteItem(int id)async{
+    var dio = Dio();
+    var response1 = dio.delete("http://192.168.88.56:8001/sell/$id",);
+  }
 
-}
+
+
+
+
+  }

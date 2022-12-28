@@ -20,16 +20,18 @@ class SellModel {
     required this.time,
     required this.status,
     required this.price1,
+    required this.user,
   });
 
   int id;
   String name;
   int amount;
   String price;
-  DateTime date;
+  DateTime? date;
   String time;
   int status;
   String price1;
+  int user;
 
   factory SellModel.fromJson(Map<String, dynamic> json) => SellModel(
         id: json["id"],
@@ -40,6 +42,7 @@ class SellModel {
         time: json["time"],
         status: json["status"],
         price1: json["price1"],
+        user: json["user"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -51,5 +54,6 @@ class SellModel {
         "time": time,
         "status": status,
         "price1": price1,
+        "user": user,
       };
 }

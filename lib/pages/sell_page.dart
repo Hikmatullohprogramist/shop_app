@@ -1,13 +1,16 @@
 // ignore_for_file: avoid_print
 
+import 'package:badges/badges.dart';
 import 'package:bottom_sheet_bar/bottom_sheet_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shop_app/pages/page.dart';
+import 'package:shop_app/pages/selling.dart';
 import 'package:shop_app/services/models/product_model.dart';
 import '../services/models/sell_model.dart';
-import '../services/services/product_service.dart';
+import '../services/services/service.dart';
 
 class SellPage extends StatefulWidget {
   const SellPage({
@@ -46,8 +49,9 @@ class _SellPageState extends State<SellPage> {
   }
 
   postData(String name, int amount, String price, String date, String time,
-      int status, String price1) async {
-    RemoteService().fetchData(name, amount, price, date, time, status, price1);
+      int status, String price1, int user) async {
+    RemoteService()
+        .fetchData(name, amount, price, date, time, status, price1, user);
   }
 
   final _bsbController = BottomSheetBarController();
@@ -85,116 +89,31 @@ class _SellPageState extends State<SellPage> {
         builder:
             (BuildContext context, AsyncSnapshot<List<Product>?> snapshot) {
           if (snapshot.hasData) {
-            return BottomSheetBar(
-              controller: _bsbController,
-              willPopScope: true,
-              expandedBuilder: (scrollController) => FutureBuilder<List<SellModel>?>
-              
-                (builder: (BuildContext context, AsyncSnapshot<List<SellModel>?> snapshot){return ListView.builder(
-                  controller: scrollController,
-                  itemBuilder: (context, index){
-                  return ListTile(
-                    title: Text(snapshot.data![index].name),
-                  );
-              });},),
-                // Wrapping the returned widget with [Material] for tap effects
-                // return  FutureBuilder<List<SellModel>?>(
-                //     future: sellmodel,
-                //     builder: (BuildContext context,
-                //         AsyncSnapshot<List<SellModel>?> snapshot) {
-                //       if (snapshot.hasData) {
-                //         return ListView.builder(
-                //             itemCount: snapshot.data!.length,
-                //             itemBuilder: (context, index) {
-                //               return Material(
-                //                 child: Center(
-                //                   child: Text(snapshot.data![index].name),
-                //                 ),
-                //               );
-                //             });
-                //       } else {
-                //         return Center(
-                //           child: CircularProgressIndicator(),
-                //         );
-                //       }
-                //     });
-                // return Material(
-                //   color: Colors.transparent,
-                //   child: CustomScrollView(
-                //     controller: scrollController,
-                //     shrinkWrap: true,
-                //     slivers: [
-                //       SliverFixedExtentList(
-                //         itemExtent: 56.0, // I'm forcing item heights
-                //         delegate: SliverChildBuilderDelegate(
-                //               (context, index) => ListTile(
-                //             title: Text(
-                //               snapshot.data![index].name.toString(),
-                //               style: const TextStyle(fontSize: 20.0),
-                //             ),
-                //             onTap: () => showDialog(
-                //               context: context,
-                //               builder: (context) => AlertDialog(
-                //                 // title: Text(
-                //                 //   itemList[index].toString(),
-                //                 // ),
-                //               ),
-                //             ),
-                //           ),
-                //           childCount: 12,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // );
-
-              collapsed: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(7.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Jami summa",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Text(
-                          NumberFormat.simpleCurrency(
-                            locale: "uz-UZB",
-                            decimalDigits: 1,
-                          ).format(price),
-                          style: const TextStyle(fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        _bsbController.expand();
-                      },
-                      icon: const Icon(
-                        Icons.keyboard_double_arrow_up_outlined,
-                        size: 45,
-                      ))
-                ],
-              ),
-              borderRadius: BorderRadius.circular(10),
-              body: Column(
-                children: [
-                  Expanded(
-                    flex: 6,
-                    child: ListView.builder(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width / 30),
-                      physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics()),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return AnimationConfiguration.staggeredList(
+            return Column(
+              children: [
+                Expanded(
+                  flex: 6,
+                  child: ListView.builder(
+                    padding:
+                        EdgeInsets.all(MediaQuery.of(context).size.width / 30),
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyWidget(
+                                name: snapshot.data![index].name,
+                                price1: snapshot.data![index].price1,
+                                price2: snapshot.data![index].price2,
+                              ),
+                            ),
+                          );
+                        },
+                        child: AnimationConfiguration.staggeredList(
                           position: index,
                           delay: const Duration(milliseconds: 100),
                           child: SlideAnimation(
@@ -260,14 +179,14 @@ class _SellPageState extends State<SellPage> {
                                                   snapshot.data![index].price2);
                                               amount += 1;
                                               postData(
-                                                snapshot.data![index].name,
-                                                amount,
-                                                snapshot.data![index].price2,
-                                                date,
-                                                time,
-                                                1,
-                                                snapshot.data![index].price1,
-                                              );
+                                                  snapshot.data![index].name,
+                                                  1,
+                                                  snapshot.data![index].price2,
+                                                  date,
+                                                  time,
+                                                  1,
+                                                  snapshot.data![index].price1,
+                                                  1);
                                             });
                                           } catch (e) {
                                             print("Qandaydir xatolik  $e");
@@ -296,13 +215,121 @@ class _SellPageState extends State<SellPage> {
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(7.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Jami summa",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              NumberFormat.simpleCurrency(
+                                locale: "uz-UZB",
+                                decimalDigits: 1,
+                              ).format(price),
+                              style: const TextStyle(fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 150,
+                      ),
+                      Badge(
+                        badgeContent: Text(
+                          amount.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Sellin()),
+                            );
+                          },
+                          icon: Icon(Icons.shopping_cart_outlined, size: 45),
+                        ),
+                      ),
+                      SizedBox(),
+
+                      // IconButton(
+                      //     onPressed: () {
+                      //
+                      //     },
+                      //     icon: const )
+                    ],
+                  ),
+                ),
+              ],
             );
+            //
+            //   },
+            // );
+            // Wrapping the returned widget with [Material] for tap effects
+            // return  FutureBuilder<List<SellModel>?>(
+            //     future: sellmodel,
+            //     builder: (BuildContext context,
+            //         AsyncSnapshot<List<SellModel>?> snapshot) {
+            //       if (snapshot.hasData) {
+            //         return ListView.builder(
+            //             itemCount: snapshot.data!.length,
+            //             itemBuilder: (context, index) {
+            //               return Material(
+            //                 child: Center(
+            //                   child: Text(snapshot.data![index].name),
+            //                 ),
+            //               );
+            //             });
+            //       } else {
+            //         return Center(
+            //           child: CircularProgressIndicator(),
+            //         );
+            //       }
+            //     });
+            // return Material(
+            //   color: Colors.transparent,
+            //   child: CustomScrollView(
+            //     controller: scrollController,
+            //     shrinkWrap: true,
+            //     slivers: [
+            //       SliverFixedExtentList(
+            //         itemExtent: 56.0, // I'm forcing item heights
+            //         delegate: SliverChildBuilderDelegate(
+            //               (context, index) => ListTile(
+            //             title: Text(
+            //               snapshot.data![index].name.toString(),
+            //               style: const TextStyle(fontSize: 20.0),
+            //             ),
+            //             onTap: () => showDialog(
+            //               context: context,
+            //               builder: (context) => AlertDialog(
+            //                 // title: Text(
+            //                 //   itemList[index].toString(),
+            //                 // ),
+            //               ),
+            //             ),
+            //           ),
+            //           childCount: 12,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // );
+
           } else if (snapshot.hasError) {
             return Center(
               child: Lottie.network(

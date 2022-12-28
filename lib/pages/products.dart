@@ -3,7 +3,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shop_app/services/models/product_model.dart';
 
-import '../services/services/product_service.dart';
+import '../services/services/service.dart';
 
 class ProductsList extends StatefulWidget {
   const ProductsList({super.key});
