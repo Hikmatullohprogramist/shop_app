@@ -56,7 +56,7 @@ class RemoteService {
   }
   Future deleteItem(int id)async{
     var dio = Dio();
-    var response1 = dio.delete("http://192.168.88.56:8001/sell/$id",);
+    var response1 = await dio.delete("http://192.168.88.56:8001/sell/$id",);
   }
 
 

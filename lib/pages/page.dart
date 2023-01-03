@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:shop_app/pages/sell_page.dart';
 
 import '../services/services/service.dart';
 
@@ -59,7 +60,11 @@ class _MyWidgetState extends State<MyWidget> {
               Container(
                   padding: EdgeInsets.all(25),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        p_amount -= 1;
+                      });
+                    },
                     child: Text("-1"),
                   )),
               Container(
@@ -67,6 +72,8 @@ class _MyWidgetState extends State<MyWidget> {
                 height: 50,
                 child: TextField(
                   controller: _amountController,
+                  textAlign: TextAlign.center,
+
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -76,7 +83,10 @@ class _MyWidgetState extends State<MyWidget> {
               Container(
                   padding: EdgeInsets.all(25),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {                       setState(() {
+                      p_amount += 1;
+                    });
+                    },
                     child: Text("+1"),
                   )),
             ],
@@ -86,6 +96,7 @@ class _MyWidgetState extends State<MyWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
+
                   padding: EdgeInsets.all(25),
                   child: ElevatedButton(
                     onPressed: () {},
@@ -96,6 +107,7 @@ class _MyWidgetState extends State<MyWidget> {
                 height: 50,
                 child: TextField(
                   controller: _priceController,
+                  textAlign: TextAlign.center,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -147,6 +159,12 @@ class _MyWidgetState extends State<MyWidget> {
                         1,
                         p_summa.toStringAsFixed(0),
                         1,
+                      );
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SellPage()),
                       );
                     },
                     child: Text("Saqlash"),

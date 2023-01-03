@@ -258,7 +258,7 @@ class _SellPageState extends State<SellPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Sellin()),
+                                  builder: (context) => Sellin(price)),
                             );
                           },
                           icon: Icon(Icons.shopping_cart_outlined, size: 45),

@@ -45,7 +45,7 @@ class _SellItemState extends State<SellItem> {
       elevation: 3,
       child: Slidable(
         endActionPane: ActionPane(
-          motion: const StretchMotion(),
+          motion: const ScrollMotion(),
           children: [
             SlidableAction(
               onPressed: ((context) => setState(() {
@@ -69,17 +69,27 @@ class _SellItemState extends State<SellItem> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
+
                   width: 35,
                   height: 35,
-                  child: const Center(
-                    child: Text(
-                      "-1",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.red,
+                  ),
+                  child:  Center(
+                    child: GestureDetector(
+                      onTap: (){
+
+                        setState(() {
+                          int.parse(widget.amount+= "1");
+
+                        });
+                      },
+                      child: Text(
+                        "-1",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
                 ),
                 Text(widget.amount),
