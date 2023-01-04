@@ -82,7 +82,7 @@ class _SellPageState extends State<SellPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Market"),
+        title: const Text("Hozmak"),
       ),
       body: FutureBuilder<List<Product>?>(
         future: products,

@@ -58,6 +58,26 @@ class RemoteService {
     var dio = Dio();
     var response1 = await dio.delete("http://192.168.88.56:8001/sell/$id",);
   }
+  Future put(String name, int amount, String price, String date, String time, int status, String price1, int user) async{
+    var dio = Dio();
+    var headers = {'Content-Type': 'text/plain'};
+    dynamic data = {
+      "name": name,
+      "amount": amount,
+      "price": price,
+      "date": date,
+      "time": time,
+      "status": status,
+      "price1": price1,
+      "user": user,
+    };
+
+    var response = await dio.put(
+      "http://192.168.88.56:8001/sell",
+      data: data,
+    );
+    return response.data;
+  }
 
 
 
