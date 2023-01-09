@@ -1,5 +1,6 @@
-// ignore_for_file: must_be_immutable, unused_local_variable, non_constant_identifier_names, avoid_print
+// ignore_for_file: must_be_immutable, unused_local_variable, non_constant_identifier_names, avoid_print, use_build_context_synchronously
 
+import 'package:dialog_alert/dialog_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,9 +29,10 @@ class MyWidget extends StatefulWidget {
 class _MyWidgetState extends State<MyWidget> {
   final _amountController = TextEditingController();
   final _priceController = TextEditingController();
+  String status = "FALSE";
 
   postData(int id, String amount) async {
-    RemoteService().fetchData(
+    status = await RemoteService().fetchData(
       id,
       amount,
     );
@@ -67,7 +69,7 @@ class _MyWidgetState extends State<MyWidget> {
               controller: _amountController,
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
               ),
             ),
@@ -81,35 +83,32 @@ class _MyWidgetState extends State<MyWidget> {
               controller: _priceController,
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
               ),
             ),
           ),
           GestureDetector(
-            onTap: () {
+            onTap: () async {
               setState(() {
                 p_amount = double.parse(_amountController.text);
                 p_price = double.parse(_priceController.text);
                 p_summa = p_amount * double.parse(widget.price2);
               });
-              postData(
+              await postData(
                 widget.id,
                 _amountController.text,
               );
-
-              print(RemoteService().getModels());
-           // if()
-           //   {
-           //
-           //   }
-           // else
-           //   {
-               Navigator.push(
-                 context,
-                 MaterialPageRoute(builder: (context) => const SellPage()),
-               );
-             // }
+              if (status == "TRUE") {
+                Navigator.pop(context);
+              } else {
+                showDialogAlert(
+                  title: 'Xatolik',
+                  context: context,
+                  message: 'Sizda buncha tovar yo`q',
+                  actionButtonTitle: 'OK',
+                );
+              }
             },
             child: Container(
               margin: const EdgeInsets.only(left: 20, right: 20),
@@ -134,7 +133,7 @@ class _MyWidgetState extends State<MyWidget> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SellPage()),
+                MaterialPageRoute(builder: (context) => const SellPage()),
               );
             },
             child: Container(

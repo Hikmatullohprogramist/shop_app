@@ -150,8 +150,9 @@ class _SellPageState extends State<SellPage> {
                                 height: MediaQuery.of(context).size.width / 4,
                                 decoration: BoxDecoration(
                                   color:
+                                      // ignore: unrelated_type_equality_checks
                                       snapshot.data![index].amount !=
-                                              0
+                                              0.0
                                           ? Colors.white
                                           : Colors.red,
                                   borderRadius: const BorderRadius.all(

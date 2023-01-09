@@ -3,6 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:shop_app/services/models/product_model.dart';
 
+import '../../pages/constants.dart';
 import '../models/sell_model.dart';
 
 class RemoteService {
@@ -10,7 +11,7 @@ class RemoteService {
   Future<List<Product>?> getModels() async {
     var dio = Dio();
     try {
-      var response = await dio.get('http://192.168.137.36:8000/products');
+      var response = await dio.get(baseUrl + 'products?id=*&name=*');
       var json = response.data;
       if (response.statusCode == 200) {
         return productFromJson(json);
@@ -34,22 +35,23 @@ class RemoteService {
     };
 
     var response = await dio.patch(
-      "http://192.168.137.36:8000/products?id=$id&amount=$amount",
+      baseUrl + "products?id=$id&amount=$amount",
       data: data,
     );
     print(response.data);
     if (response.data == "False") {
       status = "FALSE";
+      return status;
     } else {
       status = "TRUE";
-      return response.data;
+      return status;
     }
   }
 
   Future<List<SellModel>?> getsellModel() async {
     var dio = Dio();
     try {
-      var response = await dio.get('http://192.168.137.36:8000/sell');
+      var response = await dio.get(baseUrl + 'sell');
       var json = response.data;
       if (response.statusCode == 200) {
         return sellModelFromJson(json);
@@ -63,7 +65,7 @@ class RemoteService {
   Future deleteItem(int id) async {
     var dio = Dio();
     var response1 = await dio.delete(
-      "http://192.168.88.56:8001/sell/$id",
+      baseUrl + "sell/$id",
     );
   }
 

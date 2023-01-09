@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2+2"
+  dialog_alert:
+    dependency: "direct main"
+    description:
+      name: dialog_alert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   dio:
     dependency: "direct main"
     description:
