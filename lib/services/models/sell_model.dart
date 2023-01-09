@@ -25,7 +25,7 @@ class SellModel {
 
   int id;
   String name;
-  int amount;
+  String amount;
   String price;
   DateTime? date;
   String time;

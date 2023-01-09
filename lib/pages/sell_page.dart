@@ -24,6 +24,8 @@ class SellPage extends StatefulWidget {
 class _SellPageState extends State<SellPage> {
   late Future<List<Product>?> products;
   late Future<List<SellModel>?> sellmodel;
+  List onchanged =[];
+  TextEditingController textControl = TextEditingController();
 
   var isLoaded = false;
 
@@ -40,6 +42,7 @@ class _SellPageState extends State<SellPage> {
   getData() async {
     products = RemoteService().getModels();
     sellmodel = RemoteService().getsellModel();
+    onchanged = products as List;
     // ignore: unrelated_type_equality_checks
     if (products != Null) {
       setState(() {
@@ -48,11 +51,9 @@ class _SellPageState extends State<SellPage> {
     }
   }
 
-  postData(String name, int amount, String price, String date, String time,
-      int status, String price1, int user) async {
-    RemoteService()
-        .fetchData(name, amount, price, date, time, status, price1, user);
-  }
+  // postData(int id, String amount, String price) async {
+  //   RemoteService().fetchData(id, amount, price);
+  // }
 
   final _bsbController = BottomSheetBarController();
   int price = 0;
@@ -82,7 +83,26 @@ class _SellPageState extends State<SellPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Hozmak"),
+        title: Container(
+          height: 45,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(          color: Colors.white,
+            borderRadius: BorderRadius.circular(12)
+          ),
+          child:
+          TextField(
+            onChanged: (value){
+              setState(() {
+                onchanged = onchanged.where((element) => element.contains(value)).toList();
+              });
+            },
+            controller: textControl,
+            decoration: const InputDecoration(
+            suffixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
       ),
       body: FutureBuilder<List<Product>?>(
         future: products,
@@ -106,6 +126,7 @@ class _SellPageState extends State<SellPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => MyWidget(
+                                id: snapshot.data![index].id,
                                 name: snapshot.data![index].name,
                                 price1: snapshot.data![index].price1,
                                 price2: snapshot.data![index].price2,
@@ -129,7 +150,7 @@ class _SellPageState extends State<SellPage> {
                                 height: MediaQuery.of(context).size.width / 4,
                                 decoration: BoxDecoration(
                                   color:
-                                      int.parse(snapshot.data![index].amount) !=
+                                      snapshot.data![index].amount !=
                                               0
                                           ? Colors.white
                                           : Colors.red,
@@ -171,41 +192,23 @@ class _SellPageState extends State<SellPage> {
                                           ),
                                         ),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          try {
-                                            setState(() {
-                                              price += int.parse(
-                                                  snapshot.data![index].price2);
-                                              amount += 1;
-                                              postData(
-                                                  snapshot.data![index].name,
-                                                  1,
-                                                  snapshot.data![index].price2,
-                                                  date,
-                                                  time,
-                                                  1,
-                                                  snapshot.data![index].price1,
-                                                  1);
-                                            });
-                                          } catch (e) {
-                                            print("Qandaydir xatolik  $e");
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            color: Colors.green,
-                                          ),
-                                          child: const Center(
-                                            child: Text(
-                                              "+1",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          color: Colors.green,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            textAlign: TextAlign.center,
+                                            maxLines: 2,
+                                            softWrap: true,
+                                            overflow: TextOverflow.ellipsis,
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                            snapshot.data![index].amount,
                                           ),
                                         ),
                                       )

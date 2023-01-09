@@ -1,6 +1,9 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:shop_app/services/services/service.dart';
+
+import '../services/models/sell_model.dart';
 
 class PayPage extends StatefulWidget {
   const PayPage({Key? key}) : super(key: key);
@@ -11,11 +14,21 @@ class PayPage extends StatefulWidget {
 
 class _PayPageState extends State<PayPage> {
   int _selectRadio = 0;
+  List<SellModel> sold = [];
 
   @override
   void initState() {
-
     super.initState();
+    // sold.add(SellModel(
+    //     id: id,
+    //     name: name,
+    //     amount: amount,
+    //     price: price,
+    //     date: date,
+    //     time: time,
+    //     status: status,
+    //     price1: price1,
+    //     user: user));
     _selectRadio = 0;
   }
 
@@ -175,7 +188,7 @@ class _PayPageState extends State<PayPage> {
                 //             }),
                 //       ],
                 //     )),
-       /*         SizedBox(
+                /*         SizedBox(
                   height: 20,
                 ),*/
 
@@ -211,19 +224,24 @@ class _PayPageState extends State<PayPage> {
             ),
             Visibility(
               visible: onVisible,
-              child: Container(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                height: 50,
-                width: 250,
-                child: Center(
-                  child: Text(
-                    "Sotish",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+              child: InkWell(
+                onTap: () {
+                    RemoteService().put(sold);
+                },
+                child: Container(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  height: 50,
+                  width: 250,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(10),
+                  child:  const Center(
+                    child: Text(
+                      "Sotish",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                  ),
                 ),
               ),
             ),

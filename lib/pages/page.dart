@@ -1,5 +1,6 @@
-// ignore_for_file: must_be_immutable, unused_local_variable, non_constant_identifier_names
+// ignore_for_file: must_be_immutable, unused_local_variable, non_constant_identifier_names, avoid_print
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -8,12 +9,14 @@ import 'package:shop_app/pages/sell_page.dart';
 import '../services/services/service.dart';
 
 class MyWidget extends StatefulWidget {
+  int id;
   String name;
   String price1;
   String price2;
 
   MyWidget(
       {super.key,
+      required this.id,
       required this.name,
       required this.price1,
       required this.price2});
@@ -26,9 +29,11 @@ class _MyWidgetState extends State<MyWidget> {
   final _amountController = TextEditingController();
   final _priceController = TextEditingController();
 
-  postData(String name, int amount, String price, String date, String time,
-      int status, String price1, int user) async {
-    RemoteService().fetchData(name, amount, price, date, time, status, price1, user);
+  postData(int id, String amount) async {
+    RemoteService().fetchData(
+      id,
+      amount,
+    );
   }
 
   @override
@@ -54,122 +59,102 @@ class _MyWidgetState extends State<MyWidget> {
             ),
           ),
           //amount edit
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                  padding: EdgeInsets.all(25),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        p_amount -= 1;
-                      });
-                    },
-                    child: Text("-1"),
-                  )),
-              Container(
-                width: 150,
-                height: 50,
-                child: TextField(
-                  controller: _amountController,
-                  textAlign: TextAlign.center,
-
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+          Container(
+            margin: EdgeInsets.all(20),
+            width: MediaQuery.of(context).size.width,
+            height: 50,
+            child: TextField(
+              controller: _amountController,
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
               ),
-              Container(
-                  padding: EdgeInsets.all(25),
-                  child: ElevatedButton(
-                    onPressed: () {                       setState(() {
-                      p_amount += 1;
-                    });
-                    },
-                    child: Text("+1"),
-                  )),
-            ],
+            ),
           ),
           //Price edit
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
+          Container(
+            margin: EdgeInsets.all(20),
+            width: MediaQuery.of(context).size.width,
+            height: 50,
+            child: TextField(
+              controller: _priceController,
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                p_amount = double.parse(_amountController.text);
+                p_price = double.parse(_priceController.text);
+                p_summa = p_amount * double.parse(widget.price2);
+              });
+              postData(
+                widget.id,
+                _amountController.text,
+              );
 
-                  padding: EdgeInsets.all(25),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text("-500"),
-                  )),
-              Container(
-                width: 150,
-                height: 50,
-                child: TextField(
-                  controller: _priceController,
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+              print(RemoteService().getModels());
+           // if()
+           //   {
+           //
+           //   }
+           // else
+           //   {
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(builder: (context) => const SellPage()),
+               );
+             // }
+            },
+            child: Container(
+              margin: const EdgeInsets.only(left: 20, right: 20),
+              height: 50,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.green,
+              ),
+              child: const Center(
+                child: Text(
+                  "Saqlash",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
                   ),
                 ),
               ),
-              Container(
-                  padding: EdgeInsets.all(25),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text("+500"),
-                  )),
-            ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                  padding: EdgeInsets.all(25),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text("Bekor qilish"),
-                  )),
-              // Container(
-              //   width: 150,
-              //   height: 50,
-              //   child: TextField(
-              //     keyboardType: TextInputType.number,
-              //     decoration: InputDecoration(
-              //       border: OutlineInputBorder(),
-              //     ),
-              //   ),
-              // ),
-              Container(
-                  padding: EdgeInsets.all(25),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        p_amount = double.parse(_amountController.text);
-                        p_price = double.parse(_priceController.text);
-                        p_summa = p_amount * double.parse(widget.price2);
-                      });
-                      postData(
-                        widget.name,
-                        int.parse(_amountController.text),
-                        _priceController.text,
-                          date,
-                        time,
-                        1,
-                        p_summa.toStringAsFixed(0),
-                        1,
-                      );
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SellPage()),
-                      );
-                    },
-                    child: Text("Saqlash"),
-                  )),
-            ],
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SellPage()),
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              height: 50,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.red,
+              ),
+              child: const Center(
+                child: Text(
+                  "Bekor qilish",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

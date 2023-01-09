@@ -185,18 +185,18 @@ class _SellinState extends State<Sellin> {
                             Text(
                               // widget.summa.toString(),
                               NumberFormat.simpleCurrency(decimalDigits: 1, locale: "uz-UZB",).format(widget.summa),
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ),
                             GestureDetector(
                              onTap: (){
                                Navigator.push(
                                  context,
                                  MaterialPageRoute(
-                                     builder: (context) => PayPage(),),
+                                     builder: (context) => const PayPage(),),
                                );
                              },
                               child: Container(
-                                padding: EdgeInsets.only(left: 5, right: 5),
+                                padding: const EdgeInsets.only(left: 5, right: 5),
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
                                   decoration: BoxDecoration(

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, unnecessary_new, use_key_in_widget_constructors
+// ignore_for_file: unused_field, unnecessary_new, use_key_in_widget_constructors, prefer_const_constructors, avoid_unnecessary_containers
 
 import 'dart:async';
 
@@ -305,7 +305,7 @@ class HomePage extends StatelessWidget {
               Text(
                 "© Copyright Fenix Soft",
                 style: TextStyle(fontSize: 12, color: Colors.grey),
-              )
+              ),
             ],
           ),
         ),
