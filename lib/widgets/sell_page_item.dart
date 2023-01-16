@@ -34,6 +34,7 @@ class SellItem extends StatefulWidget {
 class _SellItemState extends State<SellItem> {
 
 
+  // ignore: non_constant_identifier_names
   delete_item(int id)=> setState(() async {
    await RemoteService().deleteItem(id);
   });
@@ -85,7 +86,7 @@ class _SellItemState extends State<SellItem> {
 
                         });
                       },
-                      child: Text(
+                      child: const Text(
                         "-1",
                         style: TextStyle(color: Colors.white),
                       ),

@@ -1,9 +1,7 @@
 // ignore_for_file: must_be_immutable, unused_local_variable, non_constant_identifier_names, avoid_print, use_build_context_synchronously
 
 import 'package:dialog_alert/dialog_alert.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:shop_app/pages/sell_page.dart';
 
@@ -52,20 +50,31 @@ class _MyWidgetState extends State<MyWidget> {
         children: [
           //name
           Container(
-            padding: EdgeInsets.all(25),
+            padding: const EdgeInsets.all(25),
             child: Text(
               widget.name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 25,
               ),
             ),
           ),
           //amount edit
           Container(
-            margin: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
             width: MediaQuery.of(context).size.width,
             height: 50,
             child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  if (_amountController.text != "") {
+                    int js = int.parse(widget.price2) *
+                        int.parse(_amountController.text);
+                    _priceController.text = js.toString();
+                  } else {
+                    _priceController.text = "0";
+                  }
+                });
+              },
               controller: _amountController,
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
@@ -76,7 +85,7 @@ class _MyWidgetState extends State<MyWidget> {
           ),
           //Price edit
           Container(
-            margin: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
             width: MediaQuery.of(context).size.width,
             height: 50,
             child: TextField(

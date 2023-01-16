@@ -1,6 +1,5 @@
 import 'package:bottom_sheet_bar/bottom_sheet_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   runApp(const ExampleApp());
@@ -12,6 +11,7 @@ class BottomSheetBarPage extends StatefulWidget {
   const BottomSheetBarPage({Key? key, this.title = ''}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _BottomSheetBarPageState createState() => _BottomSheetBarPageState();
 }
 
@@ -34,7 +34,7 @@ class ExampleApp extends StatelessWidget {
 }
 
 class _BottomSheetBarPageState extends State<BottomSheetBarPage> {
-  bool _isLocked = false;
+  final bool _isLocked = false;
   bool _isCollapsed = true;
   bool _isExpanded = false;
   int _listSize = 5;
@@ -157,8 +157,8 @@ class _BottomSheetBarPageState extends State<BottomSheetBarPage> {
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('BottomSheetBar is'),
+          children: const <Widget>[
+            Text('BottomSheetBar is'),
 
 
 

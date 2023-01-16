@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, prefer_final_fields
+// ignore_for_file: unused_field, prefer_final_fields, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:shop_app/pages/home_page.dart';
@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
             width: 200,
             height: 200,
             color: Colors.red,
-            child: Center(
+            child: const Center(
               child: Text("Logo"),
             ),
           ),
@@ -42,6 +42,8 @@ class LoginPage extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Container(
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+              width: double.infinity,
+              height: 50,
               child: const TextField(
                 decoration: InputDecoration(
                   label: Text("Parol"),
@@ -49,8 +51,6 @@ class LoginPage extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
               ),
-              width: double.infinity,
-              height: 50,
             ),
           ),
           Padding(
@@ -78,7 +78,7 @@ class LoginPage extends StatelessWidget {
             ),
           ),
 
-          Text(
+          const Text(
             "© Copyright Fenix Soft",
             style: TextStyle(fontSize: 12, color: Colors.grey),
           ),

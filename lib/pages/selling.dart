@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, avoid_unnecessary_containers, avoid_print
+// ignore_for_file: non_constant_identifier_names, avoid_unnecessary_containers, avoid_print, use_key_in_widget_constructors, unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -13,7 +13,8 @@ import '../services/services/service.dart';
 class Sellin extends StatefulWidget {
   final int summa;
 
-  Sellin(this.summa);
+   // ignore: prefer_const_constructors_in_immutables
+   Sellin(this.summa);
 
   @override
   State<Sellin> createState() => _SellinState();
@@ -28,14 +29,12 @@ class _SellinState extends State<Sellin> {
   void initState() {
     super.initState();
     getData();
-    print("Tovarlar royxati $sellmodel");
   }
 
   getData() async {
     sellmodel = RemoteService().getsellModel();
-    await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
-    // ignore: unrelated_type_equality_checks
+    print("Tovarlar royxati $sellmodel");
+    await Future.delayed(const Duration(milliseconds: 1000));
     if (sellmodel != Null) {
       setState(() {
         isLoaded = true;
@@ -47,8 +46,7 @@ class _SellinState extends State<Sellin> {
   delete_item(int id) {
     setState(() {
       RemoteService().deleteItem(id);
-
-      Future.delayed(Duration(milliseconds: 100), () {
+      Future.delayed(const Duration(milliseconds: 100), () {
         getData();
       });
     });
@@ -58,13 +56,13 @@ class _SellinState extends State<Sellin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Admin",
           style: TextStyle(
             color: Colors.black,
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -103,14 +101,14 @@ class _SellinState extends State<Sellin> {
                                 children: [
                                   SlidableAction(
                                     onPressed: ((context) => delete_item(
-                                        snapshot.data![index].id)),
+                                        int.parse(snapshot.data![index].id.toString()))),
                                     backgroundColor: Colors.red,
                                     icon: Icons.delete,
                                   )
                                 ],
                               ),
                               child: ListTile(
-                                title: Text(snapshot.data![index].name),
+                                title: Text(snapshot.data![index].name.toString()),
                                 onTap: () {},
                                 subtitle: Text(
                                     snapshot.data![index].price.toString()),

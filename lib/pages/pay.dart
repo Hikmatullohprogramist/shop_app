@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shop_app/services/services/service.dart';
 
 import '../services/models/sell_model.dart';
@@ -15,20 +16,11 @@ class PayPage extends StatefulWidget {
 class _PayPageState extends State<PayPage> {
   int _selectRadio = 0;
   List<SellModel> sold = [];
+  String type = '';
 
   @override
   void initState() {
     super.initState();
-    // sold.add(SellModel(
-    //     id: id,
-    //     name: name,
-    //     amount: amount,
-    //     price: price,
-    //     date: date,
-    //     time: time,
-    //     status: status,
-    //     price1: price1,
-    //     user: user));
     _selectRadio = 0;
   }
 
@@ -43,7 +35,7 @@ class _PayPageState extends State<PayPage> {
   var onSelect3 = false;
   var onSelect4 = false;
   var onVisible = false;
-  var errorText = false;
+
 
   void ontapped1() {
     setState(() {
@@ -52,6 +44,7 @@ class _PayPageState extends State<PayPage> {
       onSelect3 = false;
       onSelect4 = false;
       onVisible = true;
+      type = 'naqd';
     });
   }
 
@@ -62,19 +55,23 @@ class _PayPageState extends State<PayPage> {
       onSelect3 = false;
       onSelect4 = false;
       onVisible = true;
+      type = 'plastik';
+
     });
   }
 
-  // void ontapped3() {
-  //   setState(() {
-  //     onSelect1 = false;
-  //     onSelect2 = false;
-  //     onSelect3 = true;
-  //     onSelect4 = false;
-  //     onVisible = false;
-  //     errorText = true;
-  //   });
-  // }
+  void ontapped3() {
+    setState(() {
+      onSelect1 = false;
+      onSelect2 = false;
+      onSelect3 = true;
+      onSelect4 = false;
+      onVisible = false;
+      type = 'nasiya';
+
+
+    });
+  }
 
   void ontapped4() {
     setState(() {
@@ -83,6 +80,8 @@ class _PayPageState extends State<PayPage> {
       onSelect3 = false;
       onSelect4 = true;
       onVisible = true;
+      type = 'clik';
+
     });
   }
 
@@ -90,11 +89,11 @@ class _PayPageState extends State<PayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "To'lov oynasi",
           style: TextStyle(color: Colors.black),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -107,7 +106,7 @@ class _PayPageState extends State<PayPage> {
               children: [
                 //Naqd
                 Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     height: 50,
                     width: 250,
                     decoration: BoxDecoration(
@@ -117,7 +116,7 @@ class _PayPageState extends State<PayPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "Naqd",
                           style: TextStyle(color: Colors.white),
                         ),
@@ -131,12 +130,12 @@ class _PayPageState extends State<PayPage> {
                             }),
                       ],
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 //Plastik
                 Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     width: 250,
                     height: 50,
                     decoration: BoxDecoration(
@@ -146,9 +145,10 @@ class _PayPageState extends State<PayPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        // ignore: prefer_const_constructors
                         Text(
                           "Plastik",
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         Radio(
                             value: 2,
@@ -159,42 +159,42 @@ class _PayPageState extends State<PayPage> {
                             }),
                       ],
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 //Nasiya
-                // Container(
-                //     padding: EdgeInsets.only(left: 10, right: 10),
-                //     height: 50,
-                //     width: 250,
-                //     decoration: BoxDecoration(
-                //         color: onSelect3 ? Colors.green : Colors.red,
-                //         borderRadius: BorderRadius.circular(10)),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //       crossAxisAlignment: CrossAxisAlignment.center,
-                //       children: [
-                //         Text(
-                //           "Nasiya",
-                //           style: TextStyle(color: Colors.white),
-                //         ),
-                //         Radio(
-                //             value: 3,
-                //             groupValue: _selectRadio,
-                //             onChanged: (val) {
-                //               print("Radio $val");
-                //               setSelectRadio(val!);
-                //               ontapped3();
-                //             }),
-                //       ],
-                //     )),
-                /*         SizedBox(
+                Container(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    height: 50,
+                    width: 250,
+                    decoration: BoxDecoration(
+                        color: onSelect3 ? Colors.green : Colors.red,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Nasiya",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Radio(
+                            value: 3,
+                            groupValue: _selectRadio,
+                            onChanged: (val) {
+                              print("Radio $val");
+                              setSelectRadio(val!);
+                              ontapped3();
+                            }),
+                      ],
+                    )),
+                SizedBox(
                   height: 20,
-                ),*/
+                ),
 
                 //Click
                 Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     width: 250,
                     height: 50,
                     decoration: BoxDecoration(
@@ -204,7 +204,7 @@ class _PayPageState extends State<PayPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "Click",
                           style: TextStyle(color: Colors.white),
                         ),
@@ -226,7 +226,11 @@ class _PayPageState extends State<PayPage> {
               visible: onVisible,
               child: InkWell(
                 onTap: () {
-                    RemoteService().put(sold);
+                  // RemoteService().put(sold);
+                  RemoteService().sell("naqd");
+                  Get.snackbar("Market", "Sotildi");
+                  Navigator.pop(context);
+                  // Get.back();
                 },
                 child: Container(
                   padding: const EdgeInsets.only(left: 10, right: 10),
@@ -236,7 +240,7 @@ class _PayPageState extends State<PayPage> {
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child:  const Center(
+                  child: const Center(
                     child: Text(
                       "Sotish",
                       style: TextStyle(color: Colors.white, fontSize: 18),
@@ -245,6 +249,11 @@ class _PayPageState extends State<PayPage> {
                 ),
               ),
             ),
+            // DropdownButton<String>(items: const [
+            //   DropdownMenuItem(child: Text("APPLE")),
+            //   DropdownMenuItem(child: Text("NIKE")),
+            //   DropdownMenuItem(child: Text("GOOGLE")),
+            // ], onChanged: (e) {}),
           ],
         ),
       ),

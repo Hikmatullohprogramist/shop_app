@@ -11,7 +11,7 @@ class RemoteService {
   Future<List<Product>?> getModels() async {
     var dio = Dio();
     try {
-      var response = await dio.get(baseUrl + 'products?id=*&name=*');
+      var response = await dio.get('${baseUrl}products?id=*&name=*');
       var json = response.data;
       if (response.statusCode == 200) {
         return productFromJson(json);
@@ -22,10 +22,7 @@ class RemoteService {
     }
   }
 
-  Future fetchData(
-    int id,
-    String amount,
-  ) async {
+  Future fetchData(int id, String amount) async {
     var dio = Dio();
     var headers = {'Content-Type': 'text/plain'};
     late String status;
@@ -35,7 +32,7 @@ class RemoteService {
     };
 
     var response = await dio.patch(
-      baseUrl + "products?id=$id&amount=$amount",
+      "${baseUrl}products?id=$id&amount=$amount",
       data: data,
     );
     print(response.data);
@@ -51,7 +48,7 @@ class RemoteService {
   Future<List<SellModel>?> getsellModel() async {
     var dio = Dio();
     try {
-      var response = await dio.get(baseUrl + 'sell');
+      var response = await dio.get('${baseUrl}sell?id=*');
       var json = response.data;
       if (response.statusCode == 200) {
         return sellModelFromJson(json);
@@ -65,7 +62,7 @@ class RemoteService {
   Future deleteItem(int id) async {
     var dio = Dio();
     var response1 = await dio.delete(
-      baseUrl + "sell/$id",
+      "${baseUrl}sell/$id",
     );
   }
 
@@ -78,6 +75,43 @@ class RemoteService {
       "http://192.168.137.36:8000/sell",
       data: data,
     );
+    return response.data;
+  }
+
+  Future<List<Product>?> searchItems(String query) async {
+    var dio = Dio();
+    List<Product> result = [];
+    try {
+      var response = await dio.get('${baseUrl}products?id=*&name=$query');
+      var json = response.data;
+      if (response.statusCode == 200) {
+        // ignore: unnecessary_null_comparison
+        if (query != null) {
+          result = result
+              .where((element) => element.name.toLowerCase().contains(query))
+              .toList();
+        }
+        return productFromJson(json);
+      }
+      // return productFromJson(json);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future sell(String type) async {
+    var dio = Dio();
+
+      var response1 = await dio.post(
+        "${baseUrl}selled?type=$type",
+      );
+      return response1.data;
+    }
+
+
+  Future sellBuyer(String type, int id)async{
+    var dio = Dio();
+    var response = await dio.post('${baseUrl}selled?type=$type&id=$id');
     return response.data;
   }
 }

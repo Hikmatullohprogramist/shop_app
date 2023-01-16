@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:lottie/lottie.dart';
@@ -16,7 +18,9 @@ class _ProductsListState extends State<ProductsList> {
   late Future<List<Product>?> products;
   var isLoaded = false;
 
+  // ignore: duplicate_ignore
   @override
+  // ignore: duplicate_ignore, duplicate_ignore
   void initState() {
     getData();
     super.initState();
@@ -88,13 +92,12 @@ class _ProductsListState extends State<ProductsList> {
                                   snapshot.data![index].name.toString(),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
                                 ),
-                                Text(snapshot.data![index].price2.toString() +
-                                    " so`m"),
+                                Text("${snapshot.data![index].price2} so`m"),
                               ],
                             ),
                           ),
@@ -111,7 +114,7 @@ class _ProductsListState extends State<ProductsList> {
 
             }
             else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }

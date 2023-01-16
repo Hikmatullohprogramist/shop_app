@@ -8,6 +8,7 @@ import 'package:shop_app/pages/products.dart';
 import 'package:shop_app/pages/sell_page.dart';
 import 'package:shop_app/widgets/home_page_items.dart';
 import 'package:shop_app/widgets/animation_page.dart';
+import 'package:shop_app/widgets/title.dart';
 
 class HomePage extends StatelessWidget {
   final RoundedLoadingButtonController _btnController =
@@ -28,24 +29,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.menu),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const Text(
-              "Fenix Soft",
-              style: TextStyle(color: Colors.white, fontSize: 18),
-            ),
-            SizedBox(
-              width: 2,
-            ),
-            Image.asset(
-              "lib/assets/logo.png",
-              width: 28,
-              height: 28,
-              alignment: Alignment.bottomCenter,
-            ),
-          ],
-        ),
+        title: TitleWidget(),
         centerTitle: true,
         elevation: 0.2,
       ),

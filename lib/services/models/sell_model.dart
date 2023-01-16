@@ -20,19 +20,25 @@ class SellModel {
     required this.time,
     required this.status,
     required this.price1,
+    // ignore: non_constant_identifier_names
     required this.user,
+    required this.product_id,
+    required this.all_sum,
   });
 
-  int id;
-  String name;
-  String amount;
-  String price;
+  int? id;
+  String? name;
+  String? amount;
+  String? price;
   DateTime? date;
-  String time;
-  int status;
-  String price1;
-  int user;
-
+  String? time;
+  int? status;
+  String? price1;
+  int? user;
+  // ignore: non_constant_identifier_names
+  int? product_id;
+  // ignore: non_constant_identifier_names
+  String? all_sum;
   factory SellModel.fromJson(Map<String, dynamic> json) => SellModel(
         id: json["id"],
         name: json["name"],
@@ -43,6 +49,8 @@ class SellModel {
         status: json["status"],
         price1: json["price1"],
         user: json["user"],
+        product_id: json["product_id"],
+        all_sum: json["all_sum"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,5 +63,7 @@ class SellModel {
         "status": status,
         "price1": price1,
         "user": user,
+        "product_id":product_id,
+        "all_sum":all_sum,
       };
 }
